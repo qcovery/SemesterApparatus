@@ -42,6 +42,7 @@ use VuFind\Db\Row\UserResource as VuFindUserResource;
  *
  * @property string $annotationStudents
  * @property string $annotationStaff
+ * @property string $status
  */
 class UserResource extends VuFindUserResource
 {
@@ -65,5 +66,13 @@ class UserResource extends VuFindUserResource
         return $this->annotationStaff;
     }
 
-
+    /**
+     * Get status
+     *
+     * @return string The status of the item
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
 }

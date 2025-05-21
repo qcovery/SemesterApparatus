@@ -107,7 +107,7 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
                 'newList' => $newList,
                 'listTags' => $listTags,
                 // eWW / HAW
-                'semesterApparatusLocations' => $semesterApparatusLocations = $this->semesterApparatusConfig->Libraries->locations,
+                'semesterApparatusLocations' => $this->semesterApparatusConfig->Libraries->locations,
                 // eWW / HAW
         ]
         );
@@ -154,6 +154,7 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
                 'annotationStudents'  => $current->annotationStudents,
                 'annotationStaff'  => $current->annotationStaff,
                 'tags' => $user->getTagString($id, $current->list_id, $source),
+                'status' => $current->status,
             ];
         }
 
@@ -177,8 +178,10 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
             }
         }
 
+        $semesterApparatusStatuses = $this->semesterApparatusConfig->Items->statuses;
+
         return $this->createViewModel(
-            compact('driver', 'lists', 'savedData', 'listID')
+            compact('driver', 'lists', 'savedData', 'listID', 'semesterApparatusStatuses')
         );
     }
 
@@ -208,6 +211,7 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
                     'notes' => $this->params()->fromPost('notes' . $list),
                     'annotationStudents'  => $this->params()->fromPost('annotationStudents', []),
                     'annotationStaff'  => $this->params()->fromPost('annotationStaff', []),
+                    'status'  => $this->params()->fromPost('status', []),
                 ],
                 $user,
                 $driver

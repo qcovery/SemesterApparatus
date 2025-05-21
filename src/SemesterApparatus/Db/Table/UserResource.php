@@ -60,7 +60,8 @@ class UserResource extends VuFindUserResource
         $list_id,
         $notes = '',
         $annotationStudents = '',
-        $annotationStaff = ''
+        $annotationStaff = '',
+        $status = ''
     ) {
         $params = [
             'resource_id' => $resource_id, 'list_id' => $list_id,
@@ -80,6 +81,7 @@ class UserResource extends VuFindUserResource
         $result->notes = $notes;
         $result->annotationStudents = $annotationStudents;
         $result->annotationStaff = $annotationStaff;
+        $result->status = $status;
         $result->save();
         return $result;
     }

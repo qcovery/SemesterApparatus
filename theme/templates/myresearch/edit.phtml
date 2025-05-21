@@ -48,12 +48,12 @@
           <div class="form-group">
             <label class="control-label" for="annotationStudents"><?= $this->transEsc('Annotation Students') ?>:</label>
             <input id="annotationStudents" class="form-control" type="text" name="annotationStudents"
-                   value="<?= isset($this->list['annotationStudents']) ? $this->escapeHtml($this->list['annotationStudents']) : '' ?>">
+                   value="<?= isset($current['annotationStudents']) ? $this->escapeHtml($current['annotationStudents']) : '' ?>">
           </div>
           <div class="form-group">
             <label class="control-label" for="annotationStaff"><?= $this->transEsc('Annotation Staff') ?>:</label>
             <input id="annotationStaff" class="form-control" type="text" name="annotationStaff"
-                   value="<?= isset($this->list['annotationStaff']) ? $this->escapeHtml($this->list['annotationStaff']) : '' ?>">
+                   value="<?= isset($current['annotationStaff']) ? $this->escapeHtml($current['annotationStaff']) : '' ?>">
           </div>
 
           <a class="icon-link" href="<?=$this->url('userList', ['id' => $current['listId']]) ?>?delete=<?=urlencode($this->driver->getUniqueId())?>&amp;source=<?=urlencode($this->driver->getSourceIdentifier())?>" id="<?=$this->escapeHtmlAttr($this->driver->getUniqueId())?>delete<?=$current['listId'] ?>" data-lightbox>

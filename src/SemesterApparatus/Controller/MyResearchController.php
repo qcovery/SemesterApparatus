@@ -114,6 +114,75 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
     }
 
     /**
+     * Edit record
+     *
+     * @return mixed
+     */
+    public function editAction()
+    {
+        // Force login:
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->forceLogin();
+        }
+
+        // Get current record (and, if applicable, selected list ID) for convenience:
+        $id = $this->params()->fromPost('id', $this->params()->fromQuery('id'));
+        $source = $this->params()->fromPost(
+            'source',
+            $this->params()->fromQuery('source', DEFAULT_SEARCH_BACKEND)
+        );
+        $driver = $this->getRecordLoader()->load($id, $source, true);
+        $listID = $this->params()->fromPost(
+            'list_id',
+            $this->params()->fromQuery('list_id', null)
+        );
+
+        // Process save action if necessary:
+        if ($this->formWasSubmitted('submit')) {
+            return $this->processEditSubmit($user, $driver, $listID);
+        }
+
+        // Get saved favorites for selected list (or all lists if $listID is null)
+        $userResources = $user->getSavedData($id, $listID, $source);
+        $savedData = [];
+        foreach ($userResources as $current) {
+            $savedData[] = [
+                'listId' => $current->list_id,
+                'listTitle' => $current->list_title,
+                'notes' => $current->notes,
+                'annotationStudents'  => $current->annotationStudents,
+                'annotationStaff'  => $current->annotationStaff,
+                'tags' => $user->getTagString($id, $current->list_id, $source),
+            ];
+        }
+
+        // In order to determine which lists contain the requested item, we may
+        // need to do an extra database lookup if the previous lookup was limited
+        // to a particular list ID:
+        $containingLists = [];
+        if (!empty($listID)) {
+            $userResources = $user->getSavedData($id, null, $source);
+        }
+        foreach ($userResources as $current) {
+            $containingLists[] = $current->list_id;
+        }
+
+        // Send non-containing lists to the view for user selection:
+        $userLists = $user->getLists();
+        $lists = [];
+        foreach ($userLists as $userList) {
+            if (!in_array($userList->id, $containingLists)) {
+                $lists[$userList->id] = $userList->title;
+            }
+        }
+
+        return $this->createViewModel(
+            compact('driver', 'lists', 'savedData', 'listID')
+        );
+    }
+
+    /**
      * Process the submission of the edit favorite form.
      *
      * @param \VuFind\Db\Row\User               $user   Logged-in user

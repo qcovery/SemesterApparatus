@@ -115,7 +115,7 @@ class FavoritesService extends VuFindFavoritesService
             $params['notes'] ?? '',
             $params['annotationStudents'] ?? '',
             $params['annotationStaff'] ?? '',
-            $params['status'] ?? '',
+            $params['scanStatus'] ?? '',
         );
         return ['listId' => $list->id];
     }

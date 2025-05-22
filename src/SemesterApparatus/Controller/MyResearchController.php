@@ -166,7 +166,7 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
                 'annotationStudents'  => $current->annotationStudents,
                 'annotationStaff'  => $current->annotationStaff,
                 'tags' => $user->getTagString($id, $current->list_id, $source),
-                'status' => $current->status,
+                'scanStatus' => $current->scanStatus,
             ];
         }
 
@@ -190,10 +190,10 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
             }
         }
 
-        $semesterApparatusStatuses = $this->semesterApparatusConfig->Items->statuses;
+        $semesterApparatusScanStatuses = $this->semesterApparatusConfig->Items->scanStatuses;
 
         return $this->createViewModel(
-            compact('driver', 'lists', 'savedData', 'listID', 'semesterApparatusStatuses')
+            compact('driver', 'lists', 'savedData', 'listID', 'semesterApparatusScanStatuses')
         );
     }
 
@@ -223,7 +223,7 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
                     'notes' => $this->params()->fromPost('notes' . $list),
                     'annotationStudents'  => $this->params()->fromPost('annotationStudents', []),
                     'annotationStaff'  => $this->params()->fromPost('annotationStaff', []),
-                    'status'  => $this->params()->fromPost('status', []),
+                    'scanStatus'  => $this->params()->fromPost('scanStatus', []),
                 ],
                 $user,
                 $driver
@@ -331,7 +331,7 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
                         'saved' => $current->saved,
                         'annotationStudents' => $current->annotationStudents,
                         'annotationStaff' => $current->annotationStaff,
-                        'status' => $current->status,
+                        'scanStatus' => $current->scanStatus,
                         'record_id' => $current->record_id,
                         'title' => $current->title,
                         'author' => $current->author,

@@ -68,13 +68,13 @@ class User extends VuFindUser
         $notes,
         $annotationStudents,
         $annotationStaff,
-        $status,
+        $scanStatus,
         $replaceExisting = true
     ) {
         // Create the resource link if it doesn't exist and update the notes in any
         // case:
         $linkTable = $this->getDbTable('UserResource');
-        $linkTable->createOrUpdateLinkSemesterApparatus($resource->id, $this->id, $list->id, $notes, $annotationStudents, $annotationStaff, $status);
+        $linkTable->createOrUpdateLinkSemesterApparatus($resource->id, $this->id, $list->id, $notes, $annotationStudents, $annotationStaff, $scanStatus);
 
         // If we're replacing existing tags, delete the old ones before adding the
         // new ones:

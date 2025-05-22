@@ -44,7 +44,7 @@ use VuFind\Db\Row\UserResource as VuFindUserResource;
  *
  * @property string $annotationStudents
  * @property string $annotationStaff
- * @property string $status
+ * @property string $scanStatus
  */
 class UserResource extends VuFindUserResource
 {
@@ -69,12 +69,12 @@ class UserResource extends VuFindUserResource
     }
 
     /**
-     * Get status
+     * Get scanStatus
      *
-     * @return string The status of the item
+     * @return string The scanStatus of the item
      */
-    public function getStatus()
+    public function getScanStatus()
     {
-        return $this->status;
+        return $this->scanStatus;
     }
 }

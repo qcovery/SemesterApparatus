@@ -9,6 +9,8 @@
         <?php if(isset($data['status']) && !empty($data['status'])): ?>
           <b><?=$this->transEsc('Semester Apparatus Status')?>:</b> <span><?=$data['status']?></span><br/>
         <?php endif; ?>
+
+        <?php $this->SemesterApparatus()->getUserType(); ?>
       <?php endif ?>
     <?php endforeach ?>
   </div>

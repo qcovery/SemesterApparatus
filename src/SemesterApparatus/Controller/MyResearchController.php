@@ -22,6 +22,7 @@
  * @category VuFind
  * @package  Controller
  * @author   Demian Katz <demian.katz@villanova.edu>
+ * @author   Johannes Schultze <schultze@effective-webwork.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org Main Site
  */
@@ -43,13 +44,24 @@ use Laminas\View\Model\ViewModel;
  * @category VuFind
  * @package  Controller
  * @author   Demian Katz <demian.katz@villanova.edu>
+ * @author   Johannes Schultze <schultze@effective-webwork.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org Main Site
  */
 class MyResearchController extends \VuFind\Controller\MyResearchController
 {
+    /**
+     * SemesterApparatus configuration
+     *
+     * @var \Laminas\Config\Config
+     */
     protected $semesterApparatusConfig;
 
+    /**
+     * Constructor
+     *
+     * @param ServiceLocatorInterface $sm Service manager
+     */
     public function __construct(ServiceLocatorInterface $sm)
     {
         parent::__construct($sm);

@@ -23,6 +23,7 @@
  * @category VuFind
  * @package  Db_Table
  * @author   Demian Katz <demian.katz@villanova.edu>
+ * @author   Johannes Schultze <schultze@effective-webwork.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org Main Page
  */
@@ -37,6 +38,7 @@ use VuFind\Db\Table\UserList as VuFindUserList;
  * @category VuFind
  * @package  Db_Table
  * @author   Demian Katz <demian.katz@villanova.edu>
+ * @author   Johannes Schultze <schultze@effective-webwork.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org Main Page
  */

@@ -1,6 +1,6 @@
 <?php
 /**
- * ZF2 module definition for the VuFind application
+ * ZF2 module definition for the SemesterApparatus module
  *
  * PHP version 7
  *
@@ -22,6 +22,7 @@
  * @category VuFind
  * @package  Module
  * @author   Demian Katz <demian.katz@villanova.edu>
+ * @author   Johannes Schultze <schultze@effective-webwork.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org
  */
@@ -30,11 +31,12 @@ namespace SemesterApparatus;
 use Laminas\Mvc\MvcEvent;
 
 /**
- * ZF2 module definition for the VuFind application
+ * ZF2 module definition for the SemesterApparatus module
  *
  * @category VuFind
  * @package  Module
  * @author   Demian Katz <demian.katz@villanova.edu>
+ * @author   Johannes Schultze <schultze@effective-webwork.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org
  */

@@ -23,6 +23,7 @@
  * @category VuFind
  * @package  Favorites
  * @author   Demian Katz <demian.katz@villanova.edu>
+ * @author   Johannes Schultze <schultze@effective-webwork.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org Main Page
  */
@@ -33,11 +34,12 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Container\ContainerInterface;
 
 /**
- * Favorites service
+ * Favorites service factory
  *
  * @category VuFind
  * @package  Favorites
  * @author   Demian Katz <demian.katz@villanova.edu>
+ * @author   Johannes Schultze <schultze@effective-webwork.de>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @link     https://vufind.org Main Page
  *

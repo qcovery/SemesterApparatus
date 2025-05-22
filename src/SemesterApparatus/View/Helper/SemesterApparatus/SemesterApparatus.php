@@ -49,13 +49,21 @@ class SemesterApparatus extends \Laminas\View\Helper\AbstractHelper
     protected $config;
 
     /**
-     * Constructor
-     *
-     * @param \Laminas\Config\Config $config Configuration
+     * Current user
      */
-    public function __construct($config)
+    protected $user;
+
+    /**
+     * Class constructor
+     *
+     * @param mixed $config Configuration settings
+     * @param mixed|null $user Optional user object or data
+     * @return void
+     */
+    public function __construct($config, $user = null)
     {
         $this->config = $config;
+        $this->user = $user;
     }
 
     /**
@@ -64,6 +72,25 @@ class SemesterApparatus extends \Laminas\View\Helper\AbstractHelper
      * @return string|null
      */
     public function getUserType() {
-
+        $userType = null;
+        if ($this->user) {
+            if (isset($this->user['type'])) {
+                if (is_array($this->user['type'])) {
+                    $userType = $this->user['type'][0];
+                }
+                $userType = $this->user['type'];
+            }
+        }
+        if ($userType && isset($userType[0]) && !empty($userType[0])) {
+            $userTypeArray = explode(':', $userType[0]);
+            if (isset($userTypeArray[2]) && !empty($userTypeArray[2])) {
+                if (in_array($userTypeArray[2], $this->config->UserTypes->lecturer->toArray())) {
+                    return 'lecturer';
+                } else if (in_array($userTypeArray[2], $this->config->UserTypes->library->toArray())) {
+                    return 'library';
+                }
+            }
+        }
+        return null;
     }
 }

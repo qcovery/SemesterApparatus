@@ -10,7 +10,7 @@
           <b><?=$this->transEsc('Semester Apparatus Status')?>:</b> <span><?=$data['status']?></span><br/>
         <?php endif; ?>
 
-        <?php $this->SemesterApparatus()->getUserType(); ?>
+        <?php echo $this->SemesterApparatus()->getUserType(); ?>
       <?php endif ?>
     <?php endforeach ?>
   </div>

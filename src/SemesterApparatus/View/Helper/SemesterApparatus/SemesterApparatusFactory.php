@@ -30,6 +30,8 @@ namespace SemesterApparatus\View\Helper\SemesterApparatus;
 
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use VuFind\Auth\Manager as AuthManager;
+use VuFind\Auth\ILSAuthenticator;
 
 /**
  * SemesterApparatus helper factory.
@@ -64,8 +66,11 @@ class SemesterApparatusFactory implements FactoryInterface
             throw new \Exception('Unexpected options sent to factory.');
         }
         $config = $container->get('VuFind\Config\PluginManager')->get('SemesterApparatus');
+        $ilsAuthenticator = $container->get(ILSAuthenticator::class);
+        $patron = $ilsAuthenticator->storedCatalogLogin();
         return new $requestedName(
-            $config
+            $config,
+            $patron
         );
     }
 }

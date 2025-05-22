@@ -29,6 +29,8 @@
 
 namespace SemesterApparatus\Db\Table;
 
+use Laminas\Db\Sql\Expression;
+use Laminas\Db\Sql\Select;
 use VuFind\Db\Table\UserResource as VuFindUserResource;
 
 /**
@@ -84,5 +86,43 @@ class UserResource extends VuFindUserResource
         $result->status = $status;
         $result->save();
         return $result;
+    }
+
+    /**
+     * Get information saved in a user's favorites for a particular record.
+     *
+     * @param string $resourceId ID of record being checked.
+     * @param string $source     Source of record to look up
+     * @param int    $listId     Optional list ID (to limit results to a particular
+     * list).
+     * @param int    $userId     Optional user ID (to limit results to a particular
+     * user).
+     *
+     * @return \Laminas\Db\ResultSet\AbstractResultSet
+     */
+    public function getSavedDataForListId(
+        $listId = null
+    ) {
+        $callback = function ($select) use ($listId) {
+            $select->columns(
+                [
+                    new Expression(
+                        'DISTINCT(?)',
+                        ['user_resource.id'],
+                        [Expression::TYPE_IDENTIFIER]
+                    ), Select::SQL_STAR,
+                ]
+            );
+            $select->join(
+                ['r' => 'resource'],
+                'r.id = user_resource.resource_id',
+                ['*'],
+                $select::JOIN_LEFT
+            );
+            if (null !== $listId) {
+                $select->where->equalTo('user_resource.list_id', $listId);
+            }
+        };
+        return $this->select($callback);
     }
 }

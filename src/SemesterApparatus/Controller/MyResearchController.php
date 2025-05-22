@@ -233,4 +233,114 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
             : $this->url()->fromRoute('userList', ['id' => $listID]);
         return $this->redirect()->toUrl($newUrl);
     }
+
+    /**
+     * Send user's saved favorites from a particular list to the view
+     *
+     * @return mixed
+     */
+    public function mylistAction()
+    {
+        // Fail if lists are disabled:
+        if (!$this->listsEnabled()) {
+            throw new ForbiddenException('Lists disabled');
+        }
+
+        // Check for "delete item" request; parameter may be in GET or POST depending
+        // on calling context.
+        $deleteId = $this->params()->fromPost(
+            'delete',
+            $this->params()->fromQuery('delete')
+        );
+        if ($deleteId) {
+            $deleteSource = $this->params()->fromPost(
+                'source',
+                $this->params()->fromQuery('source', DEFAULT_SEARCH_BACKEND)
+            );
+            // If the user already confirmed the operation, perform the delete now;
+            // otherwise prompt for confirmation:
+            $confirm = $this->params()->fromPost(
+                'confirm',
+                $this->params()->fromQuery('confirm')
+            );
+            if ($confirm) {
+                $success = $this->performDeleteFavorite($deleteId, $deleteSource);
+                if ($success !== true) {
+                    return $success;
+                }
+            } else {
+                return $this->confirmDeleteFavorite($deleteId, $deleteSource);
+            }
+        }
+
+        // If we got this far, we just need to display the favorites:
+        try {
+            $runner = $this->serviceLocator->get(\VuFind\Search\SearchRunner::class);
+
+            // We want to merge together GET, POST and route parameters to
+            // initialize our search object:
+            $request = $this->getRequest()->getQuery()->toArray()
+                + $this->getRequest()->getPost()->toArray()
+                + ['id' => $this->params()->fromRoute('id')];
+
+            // Set up listener for recommendations:
+            $rManager = $this->serviceLocator
+                ->get(\VuFind\Recommend\PluginManager::class);
+            $setupCallback = function ($runner, $params, $searchId) use ($rManager) {
+                $listener = new RecommendListener($rManager, $searchId);
+                $listener->setConfig(
+                    $params->getOptions()->getRecommendationSettings()
+                );
+                $listener->attach($runner->getEventManager()->getSharedManager());
+            };
+
+            $results = $runner->run($request, 'Favorites', $setupCallback);
+            $listTags = [];
+
+            if ($this->listTagsEnabled()) {
+                if ($list = $results->getListObject()) {
+                    foreach ($list->getListTags() as $tag) {
+                        $listTags[$tag->id] = $tag->tag;
+                    }
+                }
+            }
+
+            $savedData = [];
+            if (isset($request['id'])) {
+                $table = $this->getTable('UserResource');
+                $userResources = $table->getSavedDataForListId($request['id']);
+                foreach ($userResources as $current) {
+                    $savedData[] = [
+                        'id' => $current->id,
+                        'user_id' => $current->user_id,
+                        'resource_id' => $current->resource_id,
+                        'list_id' => $current->list_id,
+                        'notes' => $current->notes,
+                        'saved' => $current->saved,
+                        'annotationStudents' => $current->annotationStudents,
+                        'annotationStaff' => $current->annotationStaff,
+                        'status' => $current->status,
+                        'record_id' => $current->record_id,
+                        'title' => $current->title,
+                        'author' => $current->author,
+                        'year' => $current->year,
+                        'source' => $current->source,
+                        'extra_metadata' => $current->extra_metadata,
+                    ];
+                }
+            }
+
+            return $this->createViewModel(
+                [
+                    'params' => $results->getParams(), 'results' => $results,
+                    'listTags' => $listTags, 'savedData' => $savedData
+                ]
+            );
+        } catch (ListPermissionException $e) {
+            if (!$this->getUser()) {
+                return $this->forceLogin();
+            }
+            throw $e;
+        }
+    }
 }

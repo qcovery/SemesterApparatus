@@ -93,4 +93,24 @@ class SemesterApparatus extends \Laminas\View\Helper\AbstractHelper
         }
         return null;
     }
+
+
+    /**
+     * Check if user is lecturer
+     *
+     * @return bool
+     */
+    public function isLecturer() {
+        return $this->getUserType() === 'lecturer';
+    }
+
+    /**
+     * Check if user is library staff
+     *
+     * @return bool
+     */
+    public function isLibrary() {
+        return $this->getUserType() === 'library';
+    }
+
 }

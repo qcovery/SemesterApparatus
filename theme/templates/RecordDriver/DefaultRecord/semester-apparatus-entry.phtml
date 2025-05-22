@@ -6,11 +6,13 @@
           <b><?=$this->transEsc('Semester Apparatus Annotation Students')?>:</b> <span><?=$data['annotationStudents']?></span><br/>
         <?php endif; ?>
 
+        <?php if(($this->SemesterApparatus()->isLecturer() || $this->SemesterApparatus()->isLibrary()) && isset($data['annotationStaff']) && !empty($data['annotationStaff'])): ?>
+          <b><?=$this->transEsc('Semester Apparatus Annotation Staff')?>:</b> <span><?=$data['annotationStaff']?></span><br/>
+        <?php endif; ?>
+
         <?php if(isset($data['status']) && !empty($data['status'])): ?>
           <b><?=$this->transEsc('Semester Apparatus Status')?>:</b> <span><?=$data['status']?></span><br/>
         <?php endif; ?>
-
-        <?php echo $this->SemesterApparatus()->getUserType(); ?>
       <?php endif ?>
     <?php endforeach ?>
   </div>

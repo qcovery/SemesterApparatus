@@ -1,0 +1,16 @@
+<?php if($this->list->semesterApparatus): ?>
+  <div class="semester-apparatus-header">
+    <?php if(isset($this->list->seminarTitle) && !empty($this->list->seminarTitle)): ?>
+      <b><?=$this->transEsc('Semester Apparatus Seminar')?>:</b> <span><?=$this->list->seminarTitle?></span><br/>
+    <?php endif; ?>
+    <?php if(isset($this->list->nameOfLecturer) && !empty($this->list->nameOfLecturer)): ?>
+      <b><?=$this->transEsc('Semester Apparatus Lecturer')?>:</b> <span><?=$this->list->nameOfLecturer?></span><br/>
+    <?php endif; ?>
+    <?php if(isset($this->list->location) && !empty($this->list->location)): ?>
+      <b><?=$this->transEsc('Semester Apparatus Location')?>:</b> <span><?=$this->list->location?></span><br/>
+    <?php endif; ?>
+    <?php if(isset($this->list->linkToMoodle) && !empty($this->list->linkToMoodle)): ?>
+      <b><?=$this->transEsc('Semester Apparatus Moodle')?>:</b> <span><a href="<?=$this->list->linkToMoodle?>" target="_blank"><?=$this->list->linkToMoodle?></a></span><br/>
+    <?php endif; ?>
+  </div>
+<?php endif;

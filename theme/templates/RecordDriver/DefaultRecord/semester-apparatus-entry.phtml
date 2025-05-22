@@ -1,0 +1,15 @@
+<?php if($this->list->semesterApparatus): ?>
+  <div class="semester-apparatus-entry">
+    <?php foreach ($this->savedData as $data): ?>
+      <?php if($data['record_id'] == $this->id): ?>
+        <?php if(isset($data['annotationStudents']) && !empty($data['annotationStudents'])): ?>
+          <b><?=$this->transEsc('Semester Apparatus Annotation Students')?>:</b> <span><?=$data['annotationStudents']?></span><br/>
+        <?php endif; ?>
+
+        <?php if(isset($data['status']) && !empty($data['status'])): ?>
+          <b><?=$this->transEsc('Semester Apparatus Status')?>:</b> <span><?=$data['status']?></span><br/>
+        <?php endif; ?>
+      <?php endif ?>
+    <?php endforeach ?>
+  </div>
+<?php endif;

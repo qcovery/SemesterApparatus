@@ -67,4 +67,24 @@ class Module
             ],
         ];
     }
+
+    /**
+     * Bootstrap the module
+     *
+     * @param MvcEvent $e Event
+     *
+     * @return void
+     */
+    public function onBootstrap(MvcEvent $e)
+    {
+        // Register the module's language directory with the translator
+        $sm = $e->getApplication()->getServiceManager();
+        try {
+            $translator = $sm->get(\Laminas\Mvc\I18n\Translator::class);
+            $pm = $translator->getPluginManager();
+            $pm->get('ExtendedIni')->addToPathStack(__DIR__ . '/languages');
+        } catch (\Exception $e) {
+            // If the translator is unavailable, proceed without it
+        }
+    }
 }

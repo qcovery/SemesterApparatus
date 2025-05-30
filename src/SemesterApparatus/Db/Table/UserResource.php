@@ -79,6 +79,7 @@ class UserResource extends VuFindUserResource
             $result->resource_id = $resource_id;
             $result->list_id = $list_id;
             $result->user_id = $user_id;
+            $result->orderStatus = 'undefined';
         }
 
         // Update the notes:

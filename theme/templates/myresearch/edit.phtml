@@ -67,6 +67,16 @@
             </select>
           </div>
 
+          <div class="form-group">
+            <label class="control-label" for="physicalAvailable"><?= $this->transEsc('Physical Available') ?>
+              :</label><br/>
+            <select name="physicalAvailable" id="physicalAvailable">
+              <option value="" selected><?= $this->escapeHtml('Select physical Availability') ?></option>
+              <option value="1"><?= $this->escapeHtml('Is physical available') ?></option>
+              <option value="0"><?= $this->escapeHtml('Is not physical available') ?></option>
+            </select>
+          </div>
+
           <a class="icon-link" href="<?=$this->url('userList', ['id' => $current['listId']]) ?>?delete=<?=urlencode($this->driver->getUniqueId())?>&amp;source=<?=urlencode($this->driver->getSourceIdentifier())?>" id="<?=$this->escapeHtmlAttr($this->driver->getUniqueId())?>delete<?=$current['listId'] ?>" data-lightbox>
             <?=$this->icon('user-list-delete', 'icon-link__icon') ?>
             <span class="icon-link__label"><?=$this->transEsc('Delete') ?></span>

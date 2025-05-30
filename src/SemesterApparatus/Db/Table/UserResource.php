@@ -55,6 +55,8 @@ class UserResource extends VuFindUserResource
      * @param string $notes       Notes to associate with link
      * @param string $annotationStudents  Annotations for students to associate with link
      * @param string $annotationStaff     Annotations for staff to associate with link
+     * @param string $scanStatus          The scanStatus of the item
+     * @param int    $physicalAvailable   The physical availability of the item
      *
      * @return \VuFind\Db\Row\UserResource
      */
@@ -65,7 +67,8 @@ class UserResource extends VuFindUserResource
         $notes = '',
         $annotationStudents = '',
         $annotationStaff = '',
-        $scanStatus = ''
+        $scanStatus = '',
+        $physicalAvailable = null
     ) {
         $params = [
             'resource_id' => $resource_id, 'list_id' => $list_id,
@@ -87,6 +90,7 @@ class UserResource extends VuFindUserResource
         $result->annotationStudents = $annotationStudents;
         $result->annotationStaff = $annotationStaff;
         $result->scanStatus = $scanStatus;
+        $result->physicalAvailable = $physicalAvailable;
         $result->save();
         return $result;
     }

@@ -45,6 +45,7 @@ use VuFind\Db\Row\UserResource as VuFindUserResource;
  * @property string $annotationStudents
  * @property string $annotationStaff
  * @property string $scanStatus
+ * @property int physicalAvailable
  */
 class UserResource extends VuFindUserResource
 {
@@ -76,5 +77,15 @@ class UserResource extends VuFindUserResource
     public function getScanStatus()
     {
         return $this->scanStatus;
+    }
+
+    /**
+     * Retrieves the value of the physicalAvailable property.
+     *
+     * @return mixed The current value of the physicalAvailable property.
+     */
+    public function getPhysicalAvailable()
+    {
+        return $this->physicalAvailable;
     }
 }

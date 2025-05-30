@@ -167,6 +167,7 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
                 'annotationStaff'  => $current->annotationStaff,
                 'tags' => $user->getTagString($id, $current->list_id, $source),
                 'scanStatus' => $current->scanStatus,
+                'physicalAvailable' => $current->physicalAvailable,
             ];
         }
 
@@ -224,6 +225,7 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
                     'annotationStudents'  => $this->params()->fromPost('annotationStudents', []),
                     'annotationStaff'  => $this->params()->fromPost('annotationStaff', []),
                     'scanStatus'  => $this->params()->fromPost('scanStatus', []),
+                    'physicalAvailable'  => $this->params()->fromPost('physicalAvailable', []),
                 ],
                 $user,
                 $driver

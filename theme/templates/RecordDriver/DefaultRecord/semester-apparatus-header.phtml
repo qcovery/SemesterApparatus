@@ -16,5 +16,6 @@
     <?php if($libraryContact = $this->SemesterApparatus()->getLibraryContact()): ?>
       <b><?=$this->transEsc('Contact The Library')?>:</b> <span><a href="mailto:<?=$libraryContact?>" target="_blank"><?=$libraryContact?></a></span><br/>
     <?php endif; ?>
+    <b><?=$this->transEsc('Acquisition Proposal')?>:</b> <span><a href="https://www.haw-hamburg.de/hibs/services/erwerbungsvorschlag/" target="_blank">https://www.haw-hamburg.de/hibs/services/erwerbungsvorschlag/</a></span>
   </div>
 <?php endif;

@@ -58,6 +58,20 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
     protected $semesterApparatusConfig;
 
     /**
+     * Mail configuration
+     *
+     * @var \Laminas\Config\Config
+     */
+    protected $mailConfig;
+
+    /**
+     * Mailer service
+     *
+     * @var \VuFind\Mailer\Mailer
+     */
+    protected $mailer;
+
+    /**
      * Constructor
      *
      * @param ServiceLocatorInterface $sm Service manager
@@ -67,6 +81,8 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
         parent::__construct($sm);
 
         $this->semesterApparatusConfig = $sm->get('VuFind\Config\PluginManager')->get('SemesterApparatus');
+        $this->mailConfig = $sm->get('VuFind\Config\PluginManager')->get('config');
+        $this->mailer = $sm->get(\VuFind\Mailer\Mailer::class);
     }
 
 
@@ -195,8 +211,10 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
 
         $isPhysicalFormat = true;
         $formats = $driver->getFormats();
-        if (in_array('eBook', $formats) || in_array('eJournal', $formats)) {
-            $isPhysicalFormat = false;
+        foreach ($this->semesterApparatusConfig->items->nonPhysicalFormats as $nonPhysicalFormat) {
+            if (in_array($nonPhysicalFormat, $formats)) {
+                $isPhysicalFormat = false;
+            }
         }
 
         return $this->createViewModel(
@@ -221,6 +239,39 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
         $favorites = $this->serviceLocator
             ->get(\SemesterApparatus\Favorites\FavoritesService::class);
         $didSomething = false;
+        $physicalAvailable  = $this->params()->fromPost('physicalAvailable', 0);
+        if ($physicalAvailable == '') {
+            $physicalAvailable = 0;
+        }
+
+        try {
+            // Send mail for physical available status change
+            if ($physicalAvailable == "1") {
+                // Get the current record status from the database
+                $id = $this->params()->fromPost('id', $this->params()->fromQuery('id'));
+                $source = $this->params()->fromPost(
+                    'source',
+                    $this->params()->fromQuery('source', DEFAULT_SEARCH_BACKEND)
+                );
+
+                $userResources = $user->getSavedData($id, $listID, $source);
+                $currentStatus = null;
+                foreach ($userResources as $current) {
+                    $currentStatus = $current;
+                }
+
+                // Only send email if the status changed from 0 to 1
+                if (!$currentStatus || $currentStatus->physicalAvailable != 1) {
+                    $from = $this->mailConfig->Site->email;
+                    $to = $this->semesterApparatusConfig->Order->mail;
+                    $subject = 'Physical item for semester apparatus';
+                    $message = 'Please insert the following item to the semester apparatus: ' . $driver->getTitle();
+                    $this->mailer->send($to, $from, $subject, $message);
+                }
+            }
+        } catch (\Exception $e) {
+        }
+
         foreach ($lists as $list) {
             $tags = $this->params()->fromPost('tags' . $list);
             $favorites->saveSemesterApparatus(
@@ -231,7 +282,7 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
                     'annotationStudents'  => $this->params()->fromPost('annotationStudents', []),
                     'annotationStaff'  => $this->params()->fromPost('annotationStaff', []),
                     'scanStatus'  => $this->params()->fromPost('scanStatus', []),
-                    'physicalAvailable'  => $this->params()->fromPost('physicalAvailable', []),
+                    'physicalAvailable'  => $physicalAvailable,
                 ],
                 $user,
                 $driver

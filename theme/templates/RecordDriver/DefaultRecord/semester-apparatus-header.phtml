@@ -12,5 +12,9 @@
     <?php if(isset($this->list->linkToMoodle) && !empty($this->list->linkToMoodle)): ?>
       <b><?=$this->transEsc('Semester Apparatus Moodle')?>:</b> <span><a href="<?=$this->list->linkToMoodle?>" target="_blank"><?=$this->list->linkToMoodle?></a></span><br/>
     <?php endif; ?>
+    <br/>
+    <?php if($libraryContact = $this->SemesterApparatus()->getLibraryContact()): ?>
+      <b><?=$this->transEsc('Contact The Library')?>:</b> <span><a href="mailto:<?=$libraryContact?>" target="_blank"><?=$libraryContact?></a></span><br/>
+    <?php endif; ?>
   </div>
 <?php endif;

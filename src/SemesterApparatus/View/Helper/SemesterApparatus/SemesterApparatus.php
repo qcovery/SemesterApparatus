@@ -114,4 +114,16 @@ class SemesterApparatus extends \Laminas\View\Helper\AbstractHelper
         return in_array('library', $this->getUserTypes());
     }
 
+    /**
+     * Check if user is library staff
+     *
+     * @return bool
+     */
+    public function getLibraryContact() {
+        if (isset($this->config->Order->mail_library) && !empty($this->config->Order->mail_library)) {
+            return $this->config->Order->mail_library;
+        }
+        return null;
+    }
+
 }

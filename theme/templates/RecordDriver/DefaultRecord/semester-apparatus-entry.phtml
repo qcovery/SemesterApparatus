@@ -11,7 +11,11 @@
         <?php endif; ?>
 
         <?php if(isset($data['orderStatus']) && !empty($data['orderStatus'])): ?>
-          <b><?=$this->transEsc('Semester Apparatus Order Status')?>:</b> <span><?=$this->transEsc('ordered')?></span><br/>
+          <?php if($data['orderStatus'] == '1'): ?>
+            <b><?=$this->transEsc('Semester Apparatus Order Status')?>:</b> <span><?=$this->transEsc('ordered')?></span><br/>
+        <?php elseif($data['orderStatus'] == '2'): ?>
+            <b><?=$this->transEsc('Semester Apparatus Order Status')?>:</b> <span><?=$this->transEsc('available')?></span><br/>
+          <?php endif; ?>
         <?php endif; ?>
       <?php endif ?>
     <?php endforeach ?>

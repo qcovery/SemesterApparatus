@@ -68,15 +68,27 @@
           </div>
 
           <?php if($this->isPhysicalFormat): ?>
+            <?php if($this->SemesterApparatus()->isLecturer()): ?>
             <div class="form-group">
               <label class="control-label" for="physicalAvailable"><?= $this->transEsc('Physical Available') ?>
                 :</label><br/>
               <select name="physicalAvailable" id="physicalAvailable">
-                <option value="" selected><?= $this->escapeHtml('Select physical Availability') ?></option>
-                <option value="1"><?= $this->escapeHtml('Is physical available') ?></option>
-                <option value="0"><?= $this->escapeHtml('Is not physical available') ?></option>
+                <option value="" <?= !isset($current['physicalAvailable']) ? 'selected' : '' ?>><?= $this->escapeHtml('Select physical Availability') ?></option>
+                <option value="1" <?= isset($current['physicalAvailable']) && $current['physicalAvailable'] ? 'selected' : '' ?>><?= $this->escapeHtml('Is physical available') ?></option>
+                <option value="0" <?= isset($current['physicalAvailable']) && !$current['physicalAvailable'] ? 'selected' : '' ?>><?= $this->escapeHtml('Is not physical available') ?></option>
               </select>
             </div>
+            <?php endif; ?>
+              <?php if($this->SemesterApparatus()->isLibrary()): ?>
+              <div class="form-group">
+                <label class="control-label"><?=$this->transEsc('Order status') ?></label>
+                <div class="checkbox inline">
+                  <label>
+                    <input id="list_semesterApparatus_checkbox" type="checkbox" name="orderStatus" <?php if (isset($current['orderStatus']) && $current['orderStatus']): ?> checked="checked"<?php endif; ?>> <?=$this->transEsc('Is Available') ?>
+                  </label>
+                </div>
+              </div>
+              <?php endif; ?>
           <?php endif; ?>
 
           <a class="icon-link" href="<?=$this->url('userList', ['id' => $current['listId']]) ?>?delete=<?=urlencode($this->driver->getUniqueId())?>&amp;source=<?=urlencode($this->driver->getSourceIdentifier())?>" id="<?=$this->escapeHtmlAttr($this->driver->getUniqueId())?>delete<?=$current['listId'] ?>" data-lightbox>

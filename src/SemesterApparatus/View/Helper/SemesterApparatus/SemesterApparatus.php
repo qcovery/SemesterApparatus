@@ -67,12 +67,12 @@ class SemesterApparatus extends \Laminas\View\Helper\AbstractHelper
     }
 
     /**
-     * Get user type
+     * Get user types
      *
-     * @return string|null
+     * @return array
      */
-    public function getUserType() {
-        $userType = null;
+    public function getUserTypes() {
+        $userTypes = [];
         if ($this->user) {
             if (isset($this->user['type'])) {
                 if (is_array($this->user['type'])) {
@@ -85,13 +85,14 @@ class SemesterApparatus extends \Laminas\View\Helper\AbstractHelper
             $userTypeArray = explode(':', $userType[0]);
             if (isset($userTypeArray[2]) && !empty($userTypeArray[2])) {
                 if (in_array($userTypeArray[2], $this->config->UserTypes->lecturer->toArray())) {
-                    return 'lecturer';
-                } else if (in_array($userTypeArray[2], $this->config->UserTypes->library->toArray())) {
-                    return 'library';
+                    $userTypes[] = 'lecturer';
+                }
+                if (in_array($userTypeArray[2], $this->config->UserTypes->library->toArray())) {
+                    $userTypes[] = 'library';
                 }
             }
         }
-        return null;
+        return $userTypes;
     }
 
 
@@ -101,7 +102,7 @@ class SemesterApparatus extends \Laminas\View\Helper\AbstractHelper
      * @return bool
      */
     public function isLecturer() {
-        return $this->getUserType() === 'lecturer';
+        return in_array('lecturer', $this->getUserTypes());
     }
 
     /**
@@ -110,7 +111,7 @@ class SemesterApparatus extends \Laminas\View\Helper\AbstractHelper
      * @return bool
      */
     public function isLibrary() {
-        return $this->getUserType() === 'library';
+        return in_array('library', $this->getUserTypes());
     }
 
 }

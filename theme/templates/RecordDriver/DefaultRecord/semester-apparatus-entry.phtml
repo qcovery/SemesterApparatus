@@ -10,8 +10,8 @@
           <b><?=$this->transEsc('Semester Apparatus Annotation Staff')?>:</b> <span><?=$data['annotationStaff']?></span><br/>
         <?php endif; ?>
 
-        <?php if(isset($data['scanStatus']) && !empty($data['scanStatus'])): ?>
-          <b><?=$this->transEsc('Semester Apparatus Scan Status')?>:</b> <span><?=$data['scanStatus']?></span><br/>
+        <?php if(isset($data['orderStatus']) && !empty($data['orderStatus'])): ?>
+          <b><?=$this->transEsc('Semester Apparatus Order Status')?>:</b> <span><?=$this->transEsc('ordered')?></span><br/>
         <?php endif; ?>
       <?php endif ?>
     <?php endforeach ?>

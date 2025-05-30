@@ -193,8 +193,14 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
 
         $semesterApparatusScanStatuses = $this->semesterApparatusConfig->Items->scanStatuses;
 
+        $isPhysicalFormat = true;
+        $formats = $driver->getFormats();
+        if (in_array('eBook', $formats) || in_array('eJournal', $formats)) {
+            $isPhysicalFormat = false;
+        }
+
         return $this->createViewModel(
-            compact('driver', 'lists', 'savedData', 'listID', 'semesterApparatusScanStatuses')
+            compact('driver', 'lists', 'savedData', 'listID', 'semesterApparatusScanStatuses', 'isPhysicalFormat')
         );
     }
 

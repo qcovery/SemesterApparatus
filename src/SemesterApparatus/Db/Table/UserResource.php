@@ -68,6 +68,7 @@ class UserResource extends VuFindUserResource
         $annotationStudents = '',
         $annotationStaff = '',
         $scanStatus = '',
+        $orderStatus = '',
         $physicalAvailable = null
     ) {
         $params = [
@@ -82,7 +83,7 @@ class UserResource extends VuFindUserResource
             $result->resource_id = $resource_id;
             $result->list_id = $list_id;
             $result->user_id = $user_id;
-            $result->orderStatus = 'undefined';
+            $result->orderStatus = '';
         }
 
         // Update the notes:
@@ -90,6 +91,7 @@ class UserResource extends VuFindUserResource
         $result->annotationStudents = $annotationStudents;
         $result->annotationStaff = $annotationStaff;
         $result->scanStatus = $scanStatus;
+        $result->orderStatus = $orderStatus;
         $result->physicalAvailable = $physicalAvailable;
         $result->save();
         return $result;

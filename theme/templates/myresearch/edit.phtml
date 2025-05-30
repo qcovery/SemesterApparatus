@@ -81,12 +81,13 @@
             <?php endif; ?>
               <?php if($this->SemesterApparatus()->isLibrary()): ?>
               <div class="form-group">
-                <label class="control-label"><?=$this->transEsc('Order status') ?></label>
-                <div class="checkbox inline">
-                  <label>
-                    <input id="list_semesterApparatus_checkbox" type="checkbox" name="orderStatus" <?php if (isset($current['orderStatus']) && $current['orderStatus']): ?> checked="checked"<?php endif; ?>> <?=$this->transEsc('Is Available') ?>
-                  </label>
-                </div>
+                <label class="control-label" for="orderStatus"><?= $this->transEsc('Order status') ?>
+                  :</label><br/>
+                <select name="orderStatus" id="orderStatus">
+                  <option value="" <?= !isset($current['orderStatus']) ? 'selected' : '' ?>><?= $this->escapeHtml('Select Order Status') ?></option>
+                  <option value="1" <?= isset($current['orderStatus']) && ($current['orderStatus'] == '1') ? 'selected' : '' ?>><?= $this->escapeHtml('Is Ordered') ?></option>
+                  <option value="2" <?= isset($current['orderStatus']) && ($current['orderStatus'] == '2') ? 'selected' : '' ?>><?= $this->escapeHtml('Is Available') ?></option>
+                </select>
               </div>
               <?php endif; ?>
           <?php endif; ?>

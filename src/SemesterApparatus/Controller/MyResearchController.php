@@ -244,32 +244,54 @@ class MyResearchController extends \VuFind\Controller\MyResearchController
         if ($physicalAvailable == '') {
             $physicalAvailable = 0;
         }
-        $orderStatus = null;
+        $orderStatus  = $this->params()->fromPost('orderStatus', 0);
+
+
+        // Get the current record status from the database
+        $id = $this->params()->fromPost('id', $this->params()->fromQuery('id'));
+        $source = $this->params()->fromPost(
+            'source',
+            $this->params()->fromQuery('source', DEFAULT_SEARCH_BACKEND)
+        );
+
+        $userResources = $user->getSavedData($id, $listID, $source);
+        $currentStatus = null;
+        foreach ($userResources as $current) {
+            $currentStatus = $current;
+        }
 
         // Send mail for physical available status change
-        if ($physicalAvailable == "1") {
-            // Get the current record status from the database
-            $id = $this->params()->fromPost('id', $this->params()->fromQuery('id'));
-            $source = $this->params()->fromPost(
-                'source',
-                $this->params()->fromQuery('source', DEFAULT_SEARCH_BACKEND)
-            );
-
-            $userResources = $user->getSavedData($id, $listID, $source);
-            $currentStatus = null;
-            foreach ($userResources as $current) {
-                $currentStatus = $current;
-            }
-
+        if ($physicalAvailable == '1') {
             // Only send email if the status changed from 0 to 1
             if (!$currentStatus || $currentStatus->physicalAvailable != 1) {
                 $orderStatus = 1;
 
                 try {
+                    $translator = $this->serviceLocator->get(\Laminas\Mvc\I18n\Translator::class);
                     $from = $this->mailConfig->Site->email;
-                    $to = $this->semesterApparatusConfig->Order->mail;
-                    $subject = 'Physical item for semester apparatus';
-                    $message = 'Please insert the following item to the semester apparatus: ' . $driver->getTitle();
+                    $to = $this->semesterApparatusConfig->Order->mail_library;
+                    $subject = $translator->translate('Physical item for semester apparatus');
+                    $message = $translator->translate('Please insert the following item to the semester apparatus') . ': ' . $driver->getTitle();
+                    $this->mailer->send($to, $from, $subject, $message);
+                } catch (\Exception $e) {
+                }
+            }
+        }
+        if ($orderStatus == '2') {
+            if (!$currentStatus || $currentStatus->orderStatus == 1) {
+                try {
+                    // Get user from database
+                    $userTable = $this->getTable('User');
+                    $userRecord = $userTable->getById($currentStatus->user_id);
+                    if (!$userRecord) {
+                        throw new \Exception('User not found');
+                    }
+
+                    $translator = $this->serviceLocator->get(\Laminas\Mvc\I18n\Translator::class);
+                    $from = $this->mailConfig->Site->email;
+                    $to = $userRecord->email;
+                    $subject = $translator->translate('Physical item for semester apparatus is available');
+                    $message = $translator->translate('The following item is available in the semester apparatus') . ': ' . $driver->getTitle();
                     $this->mailer->send($to, $from, $subject, $message);
                 } catch (\Exception $e) {
                 }

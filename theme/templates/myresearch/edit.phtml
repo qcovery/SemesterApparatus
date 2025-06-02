@@ -62,9 +62,9 @@
               <label class="control-label" for="physicalAvailable"><?= $this->transEsc('Physical Available') ?>
                 :</label><br/>
               <select name="physicalAvailable" id="physicalAvailable">
-                <option value="" <?= !isset($current['physicalAvailable']) ? 'selected' : '' ?>><?= $this->escapeHtml('Select physical Availability') ?></option>
-                <option value="1" <?= isset($current['physicalAvailable']) && $current['physicalAvailable'] ? 'selected' : '' ?>><?= $this->escapeHtml('Is physical available') ?></option>
-                <option value="0" <?= isset($current['physicalAvailable']) && !$current['physicalAvailable'] ? 'selected' : '' ?>><?= $this->escapeHtml('Is not physical available') ?></option>
+                <option value="" <?= !isset($current['physicalAvailable']) ? 'selected' : '' ?>><?= $this->transEsc('Select physical Availability') ?></option>
+                <option value="1" <?= isset($current['physicalAvailable']) && $current['physicalAvailable'] ? 'selected' : '' ?>><?= $this->transEsc('Is physical available') ?></option>
+                <option value="0" <?= isset($current['physicalAvailable']) && !$current['physicalAvailable'] ? 'selected' : '' ?>><?= $this->transEsc('Is not physical available') ?></option>
               </select>
             </div>
             <?php endif; ?>
@@ -73,9 +73,9 @@
                 <label class="control-label" for="orderStatus"><?= $this->transEsc('Order status') ?>
                   :</label><br/>
                 <select name="orderStatus" id="orderStatus">
-                  <option value="" <?= !isset($current['orderStatus']) ? 'selected' : '' ?>><?= $this->escapeHtml('Select Order Status') ?></option>
-                  <option value="1" <?= isset($current['orderStatus']) && ($current['orderStatus'] == '1') ? 'selected' : '' ?>><?= $this->escapeHtml('Is Ordered') ?></option>
-                  <option value="2" <?= isset($current['orderStatus']) && ($current['orderStatus'] == '2') ? 'selected' : '' ?>><?= $this->escapeHtml('Is Available') ?></option>
+                  <option value="" <?= !isset($current['orderStatus']) ? 'selected' : '' ?>><?= $this->transEsc('Select Order Status') ?></option>
+                  <option value="1" <?= isset($current['orderStatus']) && ($current['orderStatus'] == '1') ? 'selected' : '' ?>><?= $this->transEsc('Is Ordered') ?></option>
+                  <option value="2" <?= isset($current['orderStatus']) && ($current['orderStatus'] == '2') ? 'selected' : '' ?>><?= $this->transEsc('Is Available') ?></option>
                 </select>
               </div>
               <?php endif; ?>

@@ -68,24 +68,24 @@
   <div class="form-group">
     <label class="control-label" for="seminarTitle"><?= $this->transEsc('Seminar Title') ?>:</label>
     <input id="seminarTitle" class="form-control" type="text" name="seminarTitle"
-           value="<?= isset($this->list['seminarTitle']) ? $this->escapeHtml($this->list['seminarTitle']) : '' ?>">
+           value="<?= isset($this->list['seminarTitle']) ? $this->transEsc($this->list['seminarTitle']) : '' ?>">
   </div>
   <div class="form-group">
     <label class="control-label" for="nameOfLecturer"><?= $this->transEsc('Name of Lecturer') ?>:</label>
     <input id="nameOfLecturer" class="form-control" type="text" name="nameOfLecturer"
-           value="<?= isset($this->list['nameOfLecturer']) ? $this->escapeHtml($this->list['nameOfLecturer']) : '' ?>">
+           value="<?= isset($this->list['nameOfLecturer']) ? $this->transEsc($this->list['nameOfLecturer']) : '' ?>">
   </div>
   <div class="form-group">
     <label class="control-label" for="linkToMoodle"><?= $this->transEsc('Link to Moodle') ?>:</label>
     <input id="linkToMoodle" class="form-control" type="text" name="linkToMoodle"
-           value="<?= isset($this->list['linkToMoodle']) ? $this->escapeHtml($this->list['linkToMoodle']) : '' ?>">
+           value="<?= isset($this->list['linkToMoodle']) ? $this->transEsc($this->list['linkToMoodle']) : '' ?>">
   </div>
   <div class="form-group">
     <label class="control-label" for="seminarTitle"><?= $this->transEsc('Semester Apparatus Campus Location') ?>
       :</label><br/>
     <select name="location" id="location">
         <?php foreach ($this->semesterApparatusLocations as $semesterApparatusLocation): ?>
-          <option value="<?= $this->escapeHtmlAttr($semesterApparatusLocation) ?>" <?= isset($this->list['location']) && $this->list['location'] === $semesterApparatusLocation ? 'selected' : '' ?>><?= $this->escapeHtml($semesterApparatusLocation) ?></option>
+          <option value="<?= $this->escapeHtmlAttr($semesterApparatusLocation) ?>" <?= isset($this->list['location']) && $this->list['location'] === $semesterApparatusLocation ? 'selected' : '' ?>><?= $this->transEsc($semesterApparatusLocation) ?></option>
         <?php endforeach; ?>
     </select>
   </div>

@@ -56,17 +56,6 @@
                    value="<?= isset($current['annotationStaff']) ? $this->escapeHtml($current['annotationStaff']) : '' ?>">
           </div>
 
-          <div class="form-group">
-            <label class="control-label" for="scanStatus"><?= $this->transEsc('Scan Status') ?>
-              :</label><br/>
-            <select name="scanStatus" id="scanStatus">
-                <option value="" selected><?= $this->escapeHtml('Select item Scan Status') ?></option>
-                <?php foreach ($this->semesterApparatusScanStatuses as $semesterApparatusScanStatus): ?>
-                  <option value="<?= $this->escapeHtmlAttr($semesterApparatusScanStatus) ?>" <?= isset($current['scanStatus']) && $current['scanStatus'] === $semesterApparatusScanStatus ? 'selected' : '' ?>><?= $this->escapeHtml($semesterApparatusScanStatus) ?></option>
-                <?php endforeach; ?>
-            </select>
-          </div>
-
           <?php if($this->isPhysicalFormat): ?>
             <?php if($this->SemesterApparatus()->isLecturer()): ?>
             <div class="form-group">
